@@ -12,7 +12,8 @@ const Header = () => {
                 <Link to='/profile'> <li>Profile</li> </Link>
                 <Link to='/home'> <li>Home</li> </Link>
                 <Link to='/about'> <li>About</li> </Link>
-                <Link to='login'> <li>Login</li> </Link>
+                <Link to='/signup'><li>Signup</li></Link>
+                <Link to='/login'> <li>Login</li> </Link>
                 
             </ul>
         </div>
