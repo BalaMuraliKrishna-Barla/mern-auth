@@ -5,6 +5,7 @@ import Home from './components/Home';
 import About from './components/About';
 import Profile from './components/Profile';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 export default function App() {
   return <BrowserRouter>
@@ -15,8 +16,8 @@ export default function App() {
     <Route path='/login' element={ <Login/> }/>
     <Route path='/about' element={ <About/> }/>
     <Route path='/profile' element={ <Profile/> }/>
-
+    <Route path=''/>
   </Routes>
-
+  <Footer />
   </BrowserRouter>
 }
