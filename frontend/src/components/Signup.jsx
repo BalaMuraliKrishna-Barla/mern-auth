@@ -46,11 +46,7 @@ const Signup = () => {
           {/* <input type="password" placeholder='Confirm Password' id='confirmPassword' 
           className='bg-slate-200 p-2 rounded-xl' onChange={handleChange} /> */}
 
-<<<<<<< HEAD
           <input type="submit" value={loading? "Loading...": "Submit"} className='bg-slate-700 text-white rounded-xl p-2 hover:opacity-90 disabled:opacity-70' />
-=======
-          <input type="submit" value={loading? "Loading..." : "Submit"} className='bg-slate-700 text-white rounded-xl p-2 hover:opacity-90 disabled:opacity-70' />
->>>>>>> 9693c1e348640c82e75d1ee88db85739b7f776ae
         </form>
 
         <div className='flex gap-3 m-4'>
