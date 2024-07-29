@@ -5,8 +5,11 @@ import jwt from 'jsonwebtoken';
 const secretKey = "abcdefghijklmnopqrstuvwxyz";
 
 export const signup = async (req,res) => {
+    
     // console.log(req.body);
     const {username, email, password} = req.body;
+    if(!username || !email || !password)
+        return res.status(402).json({message : "fields are incomplete" });
     // const hashedPassword = bcryptjs.hashSync(password, 10);
     const newUser = new User({username, email, password});
     try {
@@ -21,12 +24,15 @@ export const login = async (req, res) => {
 
     const { email, password } = req.body;
     try {
+        if(!email || !password) 
+            return res.status(401).json({message : "fields incomplete"});
         const validUser = await User.findOne({ email: email });
         // Check if user exists
         if (!validUser) {
             console.log("User not found!");  // Log if user is not found
             return res.status(401).json({ message: "User not found!" });
         }
+        // console.log(validUser);
         // Check if password matches
         const originalPassword = validUser.password;
         if (password !== originalPassword) {

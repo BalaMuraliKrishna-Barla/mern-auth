@@ -1,11 +1,16 @@
 import React from 'react'
 import { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import './signup.css'
 
-const Signup = () => {
+const Login = () => {
   const [formData, setFormData]= useState({});
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState('');
+  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     e.preventDefault;
     setFormData({...formData, [e.target.id] : e.target.value});
@@ -14,36 +19,48 @@ const Signup = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch('/backend/auth/signup', {
+      const res = await fetch('/backend/auth/login', {
         method : 'POST',
         headers : {
           'Content-Type' : 'application/json'
         },
         body : JSON.stringify(formData),
       });
-      console.log(data);
-      const data = await res.json();
       
+      const data = await res.json();
+      console.log(data);
       
       setError(false);
       setLoading(false);
+      if(data.message == "fields incomplete" || data.message == "Password mismatch" || data.message == "User not found!" || data.message == "Something went wrong!")
+          setMsg(data.message);
+      else {
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+          navigate('/home');
+        }, 3000);
+          
+      }
     } catch (error) {
       setLoading(false);
       setError(true);
     }
 
     }
-  return (
+  return ( success?
+    (
+      <div className="success-message">
+        <h2 className='text-slate-900 text-5xl'>Login Successful!</h2>
+        <p></p>
+      </div>
+      ) 
+      :
+    (  
     <div className='flex flex-col items-center'>
-        <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
-        
+        <h1 className='text-3xl text-center font-semibold my-7'>Login</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-6 border-none h-auto w-[500px] '>
-
-          <input 
-          type="text" placeholder='Username' id='username' 
-          className='bg-slate-200 p-2 rounded-xl ' 
-          onChange={handleChange} />
-
+          
           <input 
           type="email" placeholder='Email' id='email' 
           className='bg-slate-200 p-2 rounded-xl' 
@@ -51,18 +68,21 @@ const Signup = () => {
           
           <input 
           type="password" placeholder='Password' id='password' 
-          className='bg-slate-200 p-2 rounded-xl' onChange={handleChange} />
+          className='bg-slate-200 p-2 rounded-xl' 
+          onChange={handleChange} />
           
-          <input type="submit" value={loading? "Loading...": "Submit"} className='bg-slate-700 text-white rounded-xl p-2 hover:opacity-90 disabled:opacity-70' />
+          <input type="submit" value={loading? "Loading...": "Login"} 
+          className='bg-slate-700 text-white rounded-xl p-2 hover:opacity-90 disabled:opacity-70' />
         </form>
 
         <div className='flex gap-3 m-4'>
-          <p>Have an account?</p>
-          <Link to='/login'> <p>Login</p> </Link>
+          <p>Dont have an account?</p>
+          <Link to='/signup'> <p>Signup</p> </Link>
         </div>
-        <p className='text-red-500'>{error && "Something went wrong!"}</p>
+        <p className='text-red-500'>{msg}</p>
     </div>
+  )
   )
 }
 
-export default Signup
+export default Login
