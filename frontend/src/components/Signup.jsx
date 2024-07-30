@@ -8,7 +8,7 @@ const Signup = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-
+  const [msg, setMsg] = useState('');
   const navigate = useNavigate();
   
   const handleChange = (e) => {
@@ -34,15 +34,18 @@ const Signup = () => {
       console.log(data);
       setError(false);
       setLoading(false);
-      if(data.message != "User not found!") {
+      if(data.message == "fields are incomplete" || data.message == "Email already exists!") 
+        setMsg(data.message);
+      else {
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
           navigate('/login');
         },3000);
+      }
 
         
-      }
+      
     } catch (error) {
       setLoading(false);
       setError(true);
@@ -85,7 +88,7 @@ const Signup = () => {
           <p>Have an account?</p>
           <Link to='/login'> <p>Login</p> </Link>
         </div>
-        <p className='text-red-500'>{error && data.message}</p>
+        <p className='text-red-500'>{msg}</p>
     </div>
   )
   )

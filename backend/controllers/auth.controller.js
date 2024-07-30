@@ -16,7 +16,7 @@ export const signup = async (req,res) => {
         await newUser.save();
         res.json({message : "User saved successfully!"});
     } catch (error) {
-        res.json({message : "Username or email is already exists!"});
+        res.json({message : "Email already exists!"});
     }
 }
 
